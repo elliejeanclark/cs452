@@ -1,5 +1,5 @@
 create table actor (
-    actor_id integer primary key,
+    actor_id integer primary key AUTO_INCREMENT,
     birthDay date not null,
     first_name varchar(30) not null,
     last_name varchar(30) not null,
@@ -7,7 +7,7 @@ create table actor (
 );
 
 create table show (
-    show_id integer primary key,
+    show_id integer primary key AUTO_INCREMENT,
     rating float not null,
     title varchar(70) not null,
     seasons integer not null,
@@ -24,21 +24,21 @@ create table show_actor (
 );
 
 create table actor_emmys (
-    emmy_id integer primary key,
+    emmy_id integer primary key AUTO_INCREMENT,
     actor_id integer,
     type varchar(50) not null,
     foreign key (actor_id) references actor (actor_id)
 );
 
 create table show_emmys (
-    emmy_id integer primary key,
+    emmy_id integer primary key AUTO_INCREMENT,
     show_id integer,
     type varchar(50) not null,
     foreign key (show_id) references show (show_id)
 );
 
 create table streaming_service (
-    streaming_id integer primary key,
+    streaming_id integer primary key AUTO_INCREMENT,
     name varchar(50) not null,
     price float not null,
     show_id integer,
