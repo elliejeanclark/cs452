@@ -2,8 +2,7 @@ create table actor (
     actor_id integer primary key,
     birthDay date not null,
     first_name varchar(30) not null,
-    last_name varchar(30) not null,
-    deathDay date
+    last_name varchar(30) not null
 );
 
 create table show (
