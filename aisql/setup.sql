@@ -1,48 +1,46 @@
-create table person (
-    person_id integer primary key,
-    name varchar(20) not null
+create table actor (
+    actor_id integer primary key,
+    birthDay date not null,
+    first_name varchar(30) not null,
+    last_name varchar(30) not null,
+    deathDay date
 );
 
-create table phone (
-    phone_id integer primary key,
-    person_id integer not null,
-    area_code int not null,
-    number int not null,
-    can_recieve_sms tinyint not null,
-    foreign key (person_id) references person (person_id)
+create table show (
+    show_id integer primary key,
+    rating float not null,
+    title varchar(70) not null,
+    seasons integer not null,
+    yearStart date not null,
+    yearEnd date
 );
 
-create table address (
-    address_id integer primary key,
-    person_id integer not null,
-    street varchar(50),
-    zip integer not null
+create table show_actor (
+    actor_id integer,
+    show_id integer,
+    foreign key (actor_id) references actor (actor_id),
+    foreign key (show_id) references show (show_id),
+    primary key (actor_id, show_id)
 );
 
-create table zip (
-    zip integer primary key,
-    city varchar(35),
-    state_two_letter_code char(2)
+create table actor_emmys (
+    emmy_id integer primary key,
+    actor_id integer,
+    type varchar(50) not null,
+    foreign key (actor_id) references actor (actor_id)
 );
 
-create table dog (
-    dog_id integer primary key,
-    name varchar(35),
-    breed varchar(35),
-    birth_date date
+create table show_emmys (
+    emmy_id integer primary key,
+    show_id integer,
+    type varchar(50) not null,
+    foreign key (show_id) references show (show_id)
 );
 
-create table award (
-    award_id integer primary key,
-    dog_id integer not null,
-    event_date date,
-    award_name varchar(25) not null,
-    foreign key (dog_id) references dog (dog_id)
-);
-
-create table person_dog (
-    dog_id integer,
-    person_id integer,
-    foreign key (dog_id) references dog (dog_id),
-    foreign key (person_id) references person (person_id)
+create table streaming_service (
+    streaming_id integer primary key,
+    name varchar(50) not null,
+    price float not null,
+    show_id integer,
+    foreign key (show_id) references show (show_id)
 );
