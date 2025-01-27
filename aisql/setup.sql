@@ -11,7 +11,8 @@ create table show (
     title varchar(70) not null,
     seasons integer not null,
     yearStart date not null,
-    yearEnd date
+    yearEnd date,
+    genre varchar(30)
 );
 
 create table show_actor (

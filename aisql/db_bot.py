@@ -65,8 +65,8 @@ commonSqlOnlyRequest = " Give me a sqlite select statement that answers the ques
 strategies = {
     "zero_shot": setupSqlScript + commonSqlOnlyRequest,
     "single_domain_double_shot": (setupSqlScript + 
-                   " Who doesn't have a way for us to text them? " + 
-                   " \nSELECT p.person_id, p.name\nFROM person p\nLEFT JOIN phone ph ON p.person_id = ph.person_id AND ph.can_recieve_sms = 1\nWHERE ph.phone_id IS NULL;\n " +
+                   " What is the most common emmy award that was won for actors? " + 
+                   " \nSELECT type\n FROM actor_emmys\nGROUP BY type\nHAVING MAX(COUNT(*))\n " +
                    commonSqlOnlyRequest)
 }
 
@@ -79,7 +79,6 @@ questions = [
     "What is the most common emmy award that was won for tv shows?",
     "Which tv shows have the most awarded actors?",
     "What is the oldest tv show in the database?",
-    "For the tv shows already in the database, can you insert data into the tables for the rest of the main actors and their awards for each tv show?"
     # "I need insert sql into my tables can you provide good unique data?"
 ]
 

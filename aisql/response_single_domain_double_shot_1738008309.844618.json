@@ -1,0 +1,62 @@
+{
+  "strategy": "single_domain_double_shot",
+  "prompt_prefix": "create table actor (\n    actor_id integer primary key,\n    birthDay date not null,\n    first_name varchar(30) not null,\n    last_name varchar(30) not null\n);\n\ncreate table show (\n    show_id integer primary key,\n    rating float not null,\n    title varchar(70) not null,\n    seasons integer not null,\n    yearStart date not null,\n    yearEnd date,\n    genre varchar(30)\n);\n\ncreate table show_actor (\n    actor_id integer,\n    show_id integer,\n    foreign key (actor_id) references actor (actor_id),\n    foreign key (show_id) references show (show_id),\n    primary key (actor_id, show_id)\n);\n\ncreate table actor_emmys (\n    emmy_id integer primary key,\n    actor_id integer,\n    type varchar(50) not null,\n    foreign key (actor_id) references actor (actor_id)\n);\n\ncreate table show_emmys (\n    emmy_id integer primary key,\n    show_id integer,\n    type varchar(50) not null,\n    foreign key (show_id) references show (show_id)\n);\n\ncreate table streaming_service (\n    streaming_id integer primary key,\n    name varchar(50) not null,\n    price float not null,\n    show_id integer,\n    foreign key (show_id) references show (show_id)\n); What is the most common emmy award that was won for actors?  \nSELECT type\n FROM actor_emmys\nGROUP BY type\nHAVING MAX(COUNT(*))\n  Give me a sqlite select statement that answers the question. Only respond with sqlite syntax. If there is an error do not expalin it!",
+  "questionResults": [
+    {
+      "question": "Which are the most awarded actors?",
+      "sql": "\nSELECT actor_id, COUNT(*) as emmy_count\nFROM actor_emmys\nGROUP BY actor_id\nORDER BY emmy_count DESC\nLIMIT 1;\n",
+      "queryRawResponse": "[(8, 4)]",
+      "friendlyResponse": "Certainly! The most awarded actors include Meryl Streep, Katharine Hepburn, and Jack Nicholson, among others.",
+      "error": "None"
+    },
+    {
+      "question": "Which are the most awarded tv shows?",
+      "sql": "\nSELECT type\nFROM actor_emmys\nGROUP BY type\nORDER BY COUNT(*) DESC\nLIMIT 1;\n\nSELECT show_id, COUNT(emmy_id) as total_emmys\nFROM show_emmys\nGROUP BY show_id\nORDER BY total_emmys DESC;\n",
+      "queryRawResponse": "[(8, 4)]",
+      "friendlyResponse": "Certainly! The most awarded actors include Meryl Streep, Katharine Hepburn, and Jack Nicholson, among others.",
+      "error": "You can only execute one statement at a time."
+    },
+    {
+      "question": "Which tv shows have lead actors with a large age gap?",
+      "sql": "\nSELECT show.title\nFROM show\nJOIN show_actor ON show.show_id = show_actor.show_id\nJOIN actor ON show_actor.actor_id = actor.actor_id\nWHERE show_actor.actor_id IN (\n    SELECT a1.actor_id\n    FROM actor a1\n    JOIN show_actor sa1 ON a1.actor_id = sa1.actor_id\n    JOIN show_actor sa2 ON sa1.show_id = sa2.show_id\n    JOIN actor a2 ON sa2.actor_id = a2.actor_id\n    WHERE ABS(JULIANDAY(a1.birthDay) - JULIANDAY(a2.birthDay)) > (365.25 * 20)\n)\nGROUP BY show.title;\n",
+      "queryRawResponse": "[('The Good Place',)]",
+      "friendlyResponse": "\"The Good Place\" has lead actors with a large age gap.",
+      "error": "None"
+    },
+    {
+      "question": "What genre of tv shows are the most awarded?",
+      "sql": "\nSELECT genre\nFROM show\nJOIN show_emmys ON show.show_id = show_emmys.show_id\nGROUP BY genre\nORDER BY COUNT(*) DESC\nLIMIT 1;\n",
+      "queryRawResponse": "[('Drama',)]",
+      "friendlyResponse": "Drama.",
+      "error": "None"
+    },
+    {
+      "question": "What is the most common emmy award that was won for actors?",
+      "sql": "\nSELECT type\nFROM actor_emmys\nGROUP BY type\nORDER BY COUNT(*) DESC\nLIMIT 1;\n",
+      "queryRawResponse": "[('Outstanding Lead Actor in a Comedy Series',)]",
+      "friendlyResponse": "The most common Emmy award won by actors is for \"Outstanding Lead Actor in a Comedy Series.\"",
+      "error": "None"
+    },
+    {
+      "question": "What is the most common emmy award that was won for tv shows?",
+      "sql": "\nSELECT type\nFROM actor_emmys\nGROUP BY type\nORDER BY COUNT(*) DESC\nLIMIT 1;\n\nSELECT type\nFROM show_emmys\nGROUP BY type\nORDER BY COUNT(*) DESC\nLIMIT 1;\n",
+      "queryRawResponse": "[('Outstanding Lead Actor in a Comedy Series',)]",
+      "friendlyResponse": "The most common Emmy award won by actors is for \"Outstanding Lead Actor in a Comedy Series.\"",
+      "error": "You can only execute one statement at a time."
+    },
+    {
+      "question": "Which tv shows have the most awarded actors?",
+      "sql": "\nSELECT sh.title\nFROM show_actor sa\nJOIN actor_emmys ae ON sa.actor_id = ae.actor_id\nJOIN show sh ON sa.show_id = sh.show_id\nGROUP BY sh.show_id, sh.title\nORDER BY COUNT(DISTINCT ae.emmy_id) DESC\nLIMIT 1;\n",
+      "queryRawResponse": "[('The West Wing',)]",
+      "friendlyResponse": "\"The West Wing\" has the most awarded actors.",
+      "error": "None"
+    },
+    {
+      "question": "What is the oldest tv show in the database?",
+      "sql": "\nSELECT type\nFROM actor_emmys\nGROUP BY type\nORDER BY COUNT(*) DESC\nLIMIT 1;\n\nSELECT title, MIN(yearStart) AS oldest_year\nFROM show;\n",
+      "queryRawResponse": "[('The West Wing',)]",
+      "friendlyResponse": "\"The West Wing\" has the most awarded actors.",
+      "error": "You can only execute one statement at a time."
+    }
+  ]
+}
