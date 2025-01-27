@@ -10,12 +10,12 @@ INSERT INTO actor (actor_id, birthDay, first_name, last_name) VALUES
 (9, '1975-09-18', 'Jason', 'Sudeikis'),
 (10, '1976-07-03', 'Hannah', 'Waddingham');
 
-INSERT INTO show (show_id, rating, title, seasons, yearStart, yearEnd) VALUES
-(1, 8.2, 'The Good Place', 4, '2016-09-19', '2020-01-30'),
-(2, 8.6, 'Parks and Recreation', 7, '2009-04-09', '2015-02-24'),
-(3, 8.4, 'Brooklyn Nine-Nine', 8, '2013-09-17', '2021-09-16'),
-(4, 8.9, 'The West Wing', 7, '1999-09-22', '2006-05-14'),
-(5, 8.8, 'Ted Lasso', 3, '2020-08-14', '2023-03-15');
+INSERT INTO show (show_id, rating, title, seasons, yearStart, yearEnd, genre) VALUES
+(1, 8.2, 'The Good Place', 4, '2016-09-19', '2020-01-30', 'Comedy'),
+(2, 8.6, 'Parks and Recreation', 7, '2009-04-09', '2015-02-24', 'Comedy'),
+(3, 8.4, 'Brooklyn Nine-Nine', 8, '2013-09-17', '2021-09-16', 'Comedy'),
+(4, 8.9, 'The West Wing', 7, '1999-09-22', '2006-05-14', 'Drama'),
+(5, 8.8, 'Ted Lasso', 3, '2020-08-14', '2023-03-15', 'Comedy');
 
 INSERT INTO show_actor (actor_id, show_id) VALUES
 (1, 1),
