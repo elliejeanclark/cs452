@@ -4,7 +4,7 @@ My databse takes some of my favorite tv shows and the lead actors from them and 
 
 Here is the shcema that I made for my database.
 
-![Image](/Users/ellieclark/Documents/CS452/cs452/aisql/schema.png)
+![Image](/aisql/schema.png)
 
 You can see other examples and my code in the aisql file. 
 
