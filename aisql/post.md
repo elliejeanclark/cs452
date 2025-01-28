@@ -62,4 +62,7 @@ The first question "Which are the most awarded actors?" actually gave me a respo
 
 That being said, I got a correct response for the age gap question in the double shot as opposed to the single domain query, and those that did not throw errors (minus the first one) all gave correct answers. 
 
+## Conclusion
 Overall I think if I was able to go through and find the error that was causing multiple statements to execute at a time and fix it the double shot would have performed better, as long as I *also* clarified in the question that I only wanted to pull the response from the database. For these reasons, the single domain queries were more reliable. 
+
+AI overall impressed me with its ablilty to create SQL and understand the quetsions I was asking it, however I also realized that when AI doesn't know something, it just makes it up. I already knew this, but seeing it in action was a good reminder.
